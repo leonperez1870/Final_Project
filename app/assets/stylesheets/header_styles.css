@@ -2246,8 +2246,8 @@ body .colapsed-menu::-webkit-scrollbar {
 }
 .header-6-sub h3 {
   font-size: 35px;
-  font-weight: normal;
-  color: #ffffff;
+  font-weight: bold;
+  color: white;
   margin-bottom: 26px;
   font-weight: 300;
 }
@@ -2257,8 +2257,8 @@ body .colapsed-menu::-webkit-scrollbar {
 }
 .header-6-sub .lead {
   font-size: 24px;
-  font-weight: normal;
-  color: rgba(255, 255, 255, 0.7);
+  font-weight: bold;
+  color: white;
   font-weight: 300;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -2344,10 +2344,10 @@ body .colapsed-menu::-webkit-scrollbar {
   display: block;
 }
 .header-6-sub .background {
-  background-image: url("file:///Users/leoncioperez1/Desktop/Startup%20Framework/Developer/common-files/img/homeinthewoods.png");
+  background-image: url("https://sangerpapers.files.wordpress.com/2013/08/screenshot1.jpg");
   opacity: 50;
   filter: alpha(opacity=5000);
-  opacity: 0.9;
+  opacity: 0.4;
   filter: alpha(opacity=50);
 }
 .header-6-sub .signup-form form {
