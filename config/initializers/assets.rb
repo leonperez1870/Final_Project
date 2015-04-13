@@ -5,8 +5,8 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( header_styles.css )
 Rails.application.config.assets.precompile += %w( content_styles.css )
 Rails.application.config.assets.precompile += %w( bootstrap.css )
-Rails.application.config.assets.precompile += %w( bootstrap-docs.css )
-Rails.application.config.assets.precompile += %w( prettify.css )
+#Rails.application.config.assets.precompile += %w( bootstrap-docs.css )
+#Rails.application.config.assets.precompile += %w( prettify.css )
 
 Rails.application.config.assets.precompile += %w( application.js )
 Rails.application.config.assets.precompile += %w( jquery-1.10.2.min.js )
