@@ -26,12 +26,24 @@
               <div class="signup-form">
                 <form>
                   <div class="clearfix">
+                    <!-- just in case 
                     <input type="text" class="form-control" placeholder="Specialty">
                     <input type="text" class="form-control" placeholder="Location">
                     <input type="text" class="form-control" placeholder="Distance">
                     
                     <button type="button" class="btn btn-primary">Go!</button>
+                    -->
+                    <%= form_tag do %>
 
+                    <%= label_tag :category_filter %>
+                    <%= text_field_tag :category_filter, nil, :placeholder => "Specialty", :class => "form-control" %>
+                    <%= label_tag :location %>
+                    <%= text_field_tag :location, nil, :placeholder => "Location", :class => "form-control" %>
+                    <%= label_tag :radius_filter %>
+                    <%= number_field_tag :radius_filter, nil, :placeholder => "Distance in miles", :class => "form-control" %>
+                    <%= submit_tag %>
+
+                    <% end %>
                   </div>
                 </form>
               </div>
