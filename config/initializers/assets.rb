@@ -5,6 +5,7 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( header_styles.css )
 Rails.application.config.assets.precompile += %w( content_styles.css )
 Rails.application.config.assets.precompile += %w( bootstrap.css )
+Rails.application.config.assets.precompile += %w( bootstrap.css.map )
 #Rails.application.config.assets.precompile += %w( bootstrap-docs.css )
 #Rails.application.config.assets.precompile += %w( prettify.css )
 
