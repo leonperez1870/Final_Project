@@ -61,6 +61,7 @@ GEM
       faraday (>= 0.7.4, < 0.10)
     globalid (0.3.5)
       activesupport (>= 4.1.0)
+    gmaps4rails (2.1.2)
     i18n (0.7.0)
     jbuilder (2.2.13)
       activesupport (>= 3.0.0, < 5)
@@ -132,7 +133,7 @@ GEM
       rdoc (~> 4.0)
     simple_oauth (0.2.0)
     spring (1.3.4)
-    sprockets (3.0.0)
+    sprockets (3.0.1)
       rack (~> 1.0)
     sprockets-rails (2.2.4)
       actionpack (>= 3.0)
@@ -166,6 +167,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.1.0)
   coffee-rails-source-maps
+  gmaps4rails
   jbuilder (~> 2.0)
   jquery-rails
   pg

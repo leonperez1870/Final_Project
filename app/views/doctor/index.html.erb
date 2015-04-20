@@ -33,7 +33,7 @@
                     
                     <button type="button" class="btn btn-primary">Go!</button>
                     -->
-                    <%= form_tag do %>
+                    <%= form_tag "search", method: "GET" do %>
 
                     <%= label_tag %>
                     <%= text_field_tag :category_filter, nil, :placeholder => "Specialty", :class => "form-control" %>
@@ -41,7 +41,7 @@
                     <%= text_field_tag :location, nil, :placeholder => "Location", :class => "form-control" %>
                     <%= label_tag %>
                     <%= number_field_tag :radius_filter, nil, :placeholder => "Distance", :class => "form-control" %>
-                    <%= submit_tag "Go!", :class => "btn btn-primary" %>
+                    <%= submit_tag "Find a Doctor!", :class => "btn btn-primary" %>
 
                     <% end %>
                   </div>
