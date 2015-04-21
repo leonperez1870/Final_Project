@@ -6,7 +6,7 @@ Rails.application.config.assets.precompile += %w( header_styles.css )
 Rails.application.config.assets.precompile += %w( content_styles.css )
 Rails.application.config.assets.precompile += %w( bootstrap.css )
 Rails.application.config.assets.precompile += %w( bootstrap.css.map )
-#Rails.application.config.assets.precompile += %w( bootstrap-docs.css )
+Rails.application.config.assets.precompile += %w( application.css )
 #Rails.application.config.assets.precompile += %w( prettify.css )
 
 Rails.application.config.assets.precompile += %w( application.js )
