@@ -50,5 +50,5 @@ group :development, :test do
 end
 gem 'yelp'
 #gem 'gmaps4rails'
-gem 'slim'
+#gem 'slim'
 
