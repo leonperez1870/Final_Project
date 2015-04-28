@@ -9,5 +9,7 @@ class DoctorController < ApplicationController
     parameters = {term: params[:term], limit: 16, sort: 2, radius_filter: 30000}
     @results = Yelp.client.search(params[:location], parameters)
   end
-
+  def json
+  	@rendering = render json: Yelp.client.search('New York', term: 'doctor', limit: 16, sort: 2)
+  end
 end

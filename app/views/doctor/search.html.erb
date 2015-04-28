@@ -3,6 +3,7 @@
 	<% @results.businesses.each do |business| %>
 	<p><%= business.name %> | <%= business.location.display_address[0] %></p>
 	<p>Phone: <%= business.display_phone %> | Rating: <%= business.rating %></p>
+	<p>________________________________________________</p>
 	<p></p>
 
 	<% end %>
