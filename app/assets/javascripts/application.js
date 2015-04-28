@@ -15,111 +15,140 @@
 //= require turbolinks
 //= require_tree .
 
-var markersArray = [];
-var NY_LAT = 40.7413515;
-var NY_LNG = -74.0004462;
-var QUERY_DELAY = 400;
-var inactive = false;
 
-$(document).ready(function() {
-  // initialize the map on load
-  initialize();
-});
+var map;
 
-/**
- * Initializes the map and some events on page load
- */
-var initialize = function() {
-  // Define some options for the map
+function initialize() {
   var mapOptions = {
-    center: new google.maps.LatLng(NY_LAT, NY_LNG),
-    zoom: 12,
+    zoom: 12
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
 
-    // hide controls
-    panControl: false,
-    streetViewControl: false,
+  // Try HTML5 geolocation
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
 
-    // reconfigure the zoom controls
-    zoomControl: true,
-    zoomControlOptions: {
-      position: google.maps.ControlPosition.RIGHT_BOTTOM,
-      style: google.maps.ZoomControlStyle.SMALL
-    }
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: 'Your Location'
+      });
+
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+}
+
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
+  }
+
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(60, 105),
+    content: content
   };
 
-  // create a new Google map with the options in the map element
-  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
-//markers from JSON
-$.getJSON('@results', function (data) {
-    $.each(data.markers, function (i, marker_data) {
-        var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(marker_data.latitude, marker_data.longitude),
-            map: map,
-            title: marker_data.title,
-        });
-    }).click(function () {
-        $('#map-canvas').gmap('openInfoWindow', {
-            'address': marker_data.address
-        }, this);
-    });
-});
+
+
+$.each(data.markers, function (i, marker_data) {
+         var marker = new google.maps.Marker({
+             position: new google.maps.LatLng(marker_data.latitude, marker_data.longitude),
+             map: map,
+             title: marker_data.title,
+          });
+     }).click(function () {
+         $('map-canvas').gmap('openInfoWindow', {
+             'address': marker_data.address
+         }, this);
+     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var markersArray = [];
+// var NY_LAT = 40.7413515;
+// var NY_LNG = -74.0004462;
+// var QUERY_DELAY = 400;
+// var inactive = false;
+
+// $(document).ready(function() {
+//   // initialize the map on load
+//   initialize();
+// });
 
 // /**
-//  * Bind and setup search control for the map
-//  *
-//  * param: map - the Google map object
+//  * Initializes the map and some events on page load
 //  */
-// var bind_controls = function(map) {
-//   // get the container for the search control and bind and event to it on submit
-//   var controlContainer = $('control_container')[0];
-//   google.maps.event.addDomListener(controlContainer, '@results', function(e) {
-//     e.preventDefault();
-//     search(map);
-//   });
+// var initialize = function() {
+//   // Define some options for the map
+//   var mapOptions = {
+//     center: new google.maps.LatLng(NY_LAT, NY_LNG),
+//     zoom: 12,
 
-//   // get the search button and bind a click event to it for searching
-//   var searchButton = $('map_search_submit')[0];
-//   google.maps.event.addDomListener(searchButton, 'click', function(e) {
-//     e.preventDefault();
-//     search(map);
-//   });
+//     // hide controls
+//     panControl: true,
+//     streetViewControl: false,
 
-//   // push the search controls onto the map
-//   map.controls[google.maps.ControlPosition.TOP_LEFT].push(controlContainer);
+//     // reconfigure the zoom controls
+//     zoomControl: true,
+//     zoomControlOptions: {
+//       position: google.maps.ControlPosition.RIGHT_TOP,
+//       style: google.maps.ZoomControlStyle.SMALL
+//     }
+//   };
+
+//   // create a new Google map with the options in the map element
+//   var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
 // }
 
-// /**
-//  * Makes a post request to the server with the search term and
-//  * populates the map with the response businesses
-//  *
-//  * param: map - the Google map object
-//  */
-// var search = function(map) {
-//   var searchTerm = $('@results input[type=text]').val();
-
-//   if (inactive === true) { return };
-
-//   // post to the search with the search term, take the response data
-//   // and process it
-//   $.post('/search', { term: searchTerm }, function(data) {
-//     inactive = true;
-
-//     // do some clean up
-//     $('@results').show();
-//     $('@results').empty();
-//     clearMarkers();
-
-//     // iterate through each business in the response capture the data
-//     // within a closure.
-//     data['businesses'].forEach(function(business, index) {
-//       capture(index, map, business);
+// google.maps.event.addDomListener(window, 'load', initialize);
+// //markers from JSON
+// $.getJSON('', function (data) {
+//     $.each(data.markers, function (i, marker_data) {
+//         var marker = new google.maps.Marker({
+//             position: new google.maps.LatLng(marker_data.latitude, marker_data.longitude),
+//             map: map,
+//             title: marker_data.title,
+//         });
+//     }).click(function () {
+//         $('map-canvas').gmap('openInfoWindow', {
+//             'address': marker_data.address
+//         }, this);
 //     });
-//   });
-// };
+// });
 
 // /**
 //  * Capture the specific business objects within a closure for setTimeout
@@ -130,18 +159,17 @@ $.getJSON('@results', function (data) {
 //  * param: map - the Google map object used for geocoding and marker placement
 //  * param: business - the business object from the response
 //  */
-// var capture = function(i, map, business) {
-//   setTimeout(function() {
-//     if (i === 15) {
-//       inactive = false;
-//     }
+ // var capture = function(i, map, business) {
+ //   setTimeout(function() {
+ //     if (i === 15) {
+ //       inactive = false;
+ //     }
 
-//     $('@results').append(build_results_container(business));
-
-//     // get the geocoded address for the business's location
-//     geocode_address(map, business['name'], business['location']);
-//   }, QUERY_DELAY * i); // the delay on the timeout
-// };
+ //    $('@results').append(build_results_container(business));
+ //     // get the geocoded address for the business's location
+ //     geocode_address(map, business['name'], business['location']);
+ //   }, QUERY_DELAY * i); // the delay on the timeout
+ // };
 
 // /**
 //  * Builds the div that'll display the business result from the API
@@ -169,43 +197,43 @@ $.getJSON('@results', function (data) {
 //  *               over the dropped marker
 //  * param: location_object - an object of the businesses address
 //  */
-// var geocode_address = function(map, name, location_object) {
-//   var geocoder = new google.maps.Geocoder();
+//  var geocode_address = function(map, name, location_object) {
+//    var geocoder = new google.maps.Geocoder();
 
-//   var address = [
-//     location_object['address'][0],
-//     location_object['city'],
-//     location_object['country_code']
-//   ].join(', ');
+//    var address = [
+//      location_object['address'][0],
+//      location_object['city'],
+//      location_object['country_code']
+//    ].join(', ');
 
-//   // geocode the address and get the lat/lng
-//   geocoder.geocode({address: address}, function(results, status) {
-//     if (status === google.maps.GeocoderStatus.OK) {
+//    // geocode the address and get the lat/lng
+//    geocoder.geocode({address: address}, function(results, status) {
+//      if (status === google.maps.GeocoderStatus.OK) {
 
-//       // create a marker and drop it on the name on the geocoded location
-//       var marker = new google.maps.Marker({
-//         animation: google.maps.Animation.DROP,
-//         map: map,
-//         position: results[0].geometry.location,
-//         title: name
-//       });
+//        // create a marker and drop it on the name on the geocoded location
+//        var marker = new google.maps.Marker({
+//          animation: google.maps.Animation.DROP,
+//          map: map,
+//          position: results[0].geometry.location,
+//          title: name
+//        });
 
-//       // save the marker object so we can delete it later
-//       markersArray.push(marker);
-//     } else {
-//       console.log("Geocode was not successful for the following reason: " + status);
-//     }
-//   });
-// };
+//        // save the marker object so we can delete it later
+//        markersArray.push(marker);
+//      } else {
+//        console.log("Geocode was not successful for the following reason: " + status);
+//      }
+//    });
+//  };
 
-// /**
-//  * Remove all of the markers from the map by setting them
-//  * to null
-//  */
-// var clearMarkers = function() {
-//   markersArray.forEach(function(marker) {
-//     marker.setMap(null);
-//   });
+// // /**
+// //  * Remove all of the markers from the map by setting them
+// //  * to null
+// //  */
+//  var clearMarkers = function() {
+//    markersArray.forEach(function(marker) {
+//      marker.setMap(null);
+//    });
 
-//   markersArray = [];
-// };
+//    markersArray = [];
+//  };

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   root 'doctor#index'
-  resources :doctor, only: [:show]
-  get '/search' => 'doctor#search'
-  post '/search' => 'doctor#search'
+  get '/search', to: 'doctor#search'
+  # post '/search', to: 'doctor#search'
+  # get '/@results', to: 'doctor#search'
 end

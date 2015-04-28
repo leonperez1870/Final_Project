@@ -24,28 +24,14 @@
           <div class="row">
             <div class="col-sm-10 col-sm-offset-1">
               <div class="signup-form">
-                <form>
                   <div class="clearfix">
-                    <!-- just in case 
-                    <input type="text" class="form-control" placeholder="Specialty">
-                    <input type="text" class="form-control" placeholder="Location">
-                    <input type="text" class="form-control" placeholder="Distance">
-                    
-                    <button type="button" class="btn btn-primary">Go!</button>
-                    -->
-                    <%= form_tag "search", method: "GET" do %>
-
-                    <%= label_tag %>
-                    <%= text_field_tag :category_filter, nil, :placeholder => "Specialty", :class => "form-control" %>
-                    <%= label_tag %>
-                    <%= text_field_tag :location, nil, :placeholder => "Location", :class => "form-control" %>
-                    <%= label_tag %>
-                    <%= number_field_tag :radius_filter, nil, :placeholder => "Distance", :class => "form-control" %>
-                    <%= submit_tag "Find a Doctor!", :class => "btn btn-primary" %>
-
+                    <%= form_tag '/search', method: "get" do %>
+                      <%= text_field_tag :term, nil, :placeholder => "Specialty", :class => "form-control" %>
+                      <%= text_field_tag :location, nil, :placeholder => "Location", :class => "form-control" %>
+                      <%= number_field_tag :radius_filter, nil, :placeholder => "Distance", :class => "form-control" %>
+                      <%= submit_tag "Find a Doctor!", :class => "btn btn-primary" %>
                     <% end %>
                   </div>
-                </form>
               </div>
             </div>
           </div>
