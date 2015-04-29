@@ -65,7 +65,23 @@ function handleNoGeolocation(errorFlag) {
   map.setCenter(options.position);
 }
 
+function getLocations() {
 
+      $.getJSON("/json.json", function (json) {
+
+          $.each(json["businesses"]["location"]["coordinate"], function(i, entry){
+              addMarker(entry.location.latitude,entry.location.longitude);
+          });
+      });
+  }
+
+  function addMarker(lat,lng) {
+          marker = new google.maps.Marker({
+          position: new google.maps.LatLng(lat,lng),
+          map: map,
+          });
+          markersArray.push(marker);
+  }
 
 
 
@@ -99,111 +115,6 @@ function handleNoGeolocation(errorFlag) {
       //     });
       //   });
       // });
-
-
-
-
-
-var search = function(map) {
-  var searchTerm = $('doctors').val();
-
-  if (inactive === true) { return };
-
-  // post to the search with the search term, take the response data
-  // and process it
-  $.post('/search', { term: searchTerm }, function(data) {
-    inactive = true;
-
-    // do some clean up
-    $('@results').show();
-    $('@results').empty();
-    clearMarkers();
-
-    // iterate through each business in the response capture the data
-    // within a closure.
-    data['businesses'].forEach(function(business, index) {
-      capture(index, map, business);
-    });
-  });
-};
-
-/**
- * Capture the specific business objects within a closure for setTimeout
- * or else it'll execute only on the last business in the array
- *
- * param: i - the index the business was at in the array, used to the
- *            timeout delay
- * param: map - the Google map object used for geocoding and marker placement
- * param: business - the business object from the response
- */
-var capture = function(i, map, business) {
-  setTimeout(function() {
-    if (i === 15) {
-      inactive = false;
-    }
-
-    $('@results').append(build_results_container(business));
-
-    // get the geocoded address for the business's location
-    geocode_address(map, business['name'], business['location']);
-  }, QUERY_DELAY * i); // the delay on the timeout
-};
-
-/**
- * Geocode the address from the business and drop a marker on it's
- * location on the map
- *
- * param: map - the Google map object to drop a marker on
- * param: name - the name of the business, used for when you hover
- *               over the dropped marker
- * param: location_object - an object of the businesses address
- */
-var geocode_address = function(map, name, location_object) {
-  var geocoder = new google.maps.Geocoder();
-
-  var address = [
-    location_object['address'][0],
-    location_object['city'],
-    location_object['country_code']
-  ].join(', ');
-
-  // geocode the address and get the lat/lng
-  geocoder.geocode({address: address}, function(results, status) {
-    if (status === google.maps.GeocoderStatus.OK) {
-
-      // create a marker and drop it on the name on the geocoded location
-      var marker = new google.maps.Marker({
-        animation: google.maps.Animation.DROP,
-        map: map,
-        position: results[0].geometry.location,
-        title: name
-      });
-
-      // save the marker object so we can delete it later
-      markersArray.push(marker);
-    } else {
-      console.log("Geocode was not successful for the following reason: " + status);
-    }
-  });
-};
-
-/**
- * Remove all of the markers from the map by setting them
- * to null
- */
-var clearMarkers = function() {
-  markersArray.forEach(function(marker) {
-    marker.setMap(null);
-  });
-
-  markersArray = [];
-};
-
-
-
-
-
-
 
 
 
