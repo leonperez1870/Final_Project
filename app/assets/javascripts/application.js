@@ -15,12 +15,13 @@
 //= require turbolinks
 //= require_tree .
 
-
+google.maps.event.addDomListener(window, 'load', initialize);
+var geocoder;
 var map;
 
 function initialize() {
   var mapOptions = {
-    zoom: 12
+    zoom: 13
   };
   map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
@@ -64,50 +65,67 @@ function handleNoGeolocation(errorFlag) {
   map.setCenter(options.position);
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
 
 
-$.getJSON('/json', function (data) {
-    $.each(data.markers, function (i, marker_data) {
-        var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(marker_data.latitude, marker_data.longitude),
-            map: map,
-            title: marker_data.title,
-        });
-    }).click(function () {
-        $('map-canvas').gmap('openInfoWindow', {
-            'address': marker_data.address
-        }, this);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      // $(document).ready(function() {
+      //   $.getJSON('/json.json', function(json1) {
+      //     $.each(json1, function(key, data) {
+      //       var latLng = new google.maps.LatLng(data.latitude, data.longitude); 
+      //       // Creating a marker and putting it on the map
+      //       var marker = new google.maps.Marker({
+      //           position: latLng,
+      //           title: data.title
+      //       });
+      //       marker.setMap(map);
+      //     });
+      //   });
+      // });
+
+
+
+
+
+var search = function(map) {
+  var searchTerm = $('doctors').val();
+
+  if (inactive === true) { return };
+
+  // post to the search with the search term, take the response data
+  // and process it
+  $.post('/search', { term: searchTerm }, function(data) {
+    inactive = true;
+
+    // do some clean up
+    $('@results').show();
+    $('@results').empty();
+    clearMarkers();
+
+    // iterate through each business in the response capture the data
+    // within a closure.
+    data['businesses'].forEach(function(business, index) {
+      capture(index, map, business);
     });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  });
+};
 
 /**
  * Capture the specific business objects within a closure for setTimeout
@@ -130,23 +148,6 @@ var capture = function(i, map, business) {
     geocode_address(map, business['name'], business['location']);
   }, QUERY_DELAY * i); // the delay on the timeout
 };
-
-/**
- * Builds the div that'll display the business result from the API
- *
- * param: business - object of the business response
- */
-// var build_results_container = function(business) {
-//   return [
-//     '<div class="result">',
-//       '<img class="biz_img" src="', business['image_url'], '">',
-//       '<h5><a href="', business['url'] ,'" target="_blank">', business['name'], '</a></h5>',
-//       '<img src="', business['rating_img_url'], '">',
-//       '<p>', business['review_count'], ' reviews</p>',
-//       '<p class="clear-fix"></p>',
-//     '</div>'
-//   ].join('');
-// };
 
 /**
  * Geocode the address from the business and drop a marker on it's
